@@ -21,23 +21,56 @@ Simplicity should be a key goal in design. Choose straightforward solutions over
 
 ### Project Architecture
 
-#### Simple Server Architecture
+#### Layered Server Architecture
 ```
 /
-├── server.js               # Express/Node.js server
+├── server.js                    # Entry point (minimal bootstrap)
+├── src/
+│   ├── routes/                  # Express route definitions
+│   │   └── todoRoutes.js        # Todo API endpoints
+│   ├── services/                # Business logic layer
+│   │   └── todoService.js       # Todo operations
+│   └── persistence/             # Data access layer
+│       └── fileStorage.js       # JSON file storage
 ├── public/
-│   ├── index.html
-│   ├── styles.css
-│   └── script.js
+│   ├── index.html               # Single page application
+│   ├── css/
+│   │   └── styles.css           # Tailwind + custom CSS
+│   └── js/
+│       ├── app.js               # Main frontend entry
+│       ├── components/          # UI components
+│       │   └── todoList.js      # Todo list component
+│       └── api/                 # API client layer
+│           └── todoApi.js       # Backend API calls
 ├── data/
-│   └── storage.json        # File-based data storage
+│   └── todos.json               # Persistent JSON storage
 ├── docs/
-│   ├── openapi.yaml        # OpenAPI specification
-│   └── api/
-│       └── endpoints/      # Individual endpoint documentation
+│   └── openapi.yaml             # OpenAPI 3.0 specification
+├── skills/                      # Agent Skills (agentskills.io format)
+│   ├── express-service/
+│   │   └── SKILL.md             # Service layer patterns
+│   ├── vanilla-ui/
+│   │   └── SKILL.md             # Frontend component patterns
+│   ├── json-persistence/
+│   │   └── SKILL.md             # Data persistence patterns
+│   └── openapi-docs/
+│       └── SKILL.md             # API documentation patterns
+├── tests/
+│   ├── services/                # Service layer tests
+│   └── persistence/             # Persistence layer tests
 ├── package.json
 └── README.md
 ```
+
+#### Layer Responsibilities
+
+| Layer | Location | Responsibility |
+|-------|----------|----------------|
+| **Routes** | `src/routes/` | HTTP handling, request validation, response formatting |
+| **Services** | `src/services/` | Business logic, orchestration, validation rules |
+| **Persistence** | `src/persistence/` | Data storage, retrieval, file I/O |
+| **UI Components** | `public/js/components/` | DOM manipulation, user interactions, rendering |
+| **API Client** | `public/js/api/` | Backend communication, fetch calls |
 
 #### Technology Standards
 
